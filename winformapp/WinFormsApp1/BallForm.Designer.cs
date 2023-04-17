@@ -45,7 +45,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Menu;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(926, 505);
             Controls.Add(button1);
             Name = "BallForm";
             Text = "BallForm";
