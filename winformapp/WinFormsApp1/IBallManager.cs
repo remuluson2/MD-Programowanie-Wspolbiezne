@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp1
 {
-    internal interface IBallManager
+    public interface IBallManager
     {
-        void AddBall(Ball ball);
+        void AddBall(IBall ball);
         void AddBall(Vector2 position);
-        Ball GetBall(int index);
+        IBall GetBall(int index);
         void ClearBalls();
         void UpdateBalls();
-        void UpdateSize();
+        void UpdateSize(int width, int height);
+        void DrawBalls(PaintEventArgs e);
     }
 }

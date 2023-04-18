@@ -7,16 +7,21 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp1
 {
-    internal class Ball : IBall
+    public class Ball : IBall
     {
-        public int size = 10;
+        public int Size {get; set;}
         public Vector2 Pos { get; set; }
         public Vector2 Speed { get; set; }
-        public Ball(Vector2 pos,int newsize = 10)
+        public Ball(Vector2 pos,int newsize = 200)
         {
             Pos = pos;
-            size = (int)newsize;
+            Size = (int)newsize;
         }
-        public Ball() { }
+        public Ball() 
+        {
+            Pos = new Vector2(0,0);
+            Speed = new Vector2(0,0);
+            Size = 200;
+        }
     }
 }

@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp1
 {
-    internal interface IBall
+    public interface IBall
     {
         Vector2 Pos { get; set; }
         Vector2 Speed { get; set; }
+        int Size { get; set; }
     }
 }

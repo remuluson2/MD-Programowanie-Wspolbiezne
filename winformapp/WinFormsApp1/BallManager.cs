@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp1
 {
-    internal class BallManager : IBallManager
+    public class BallManager : IBallManager
     {
         List<IBall> balls;
         int WIDTH, HEIGHT;
 
 
-        BallManager()
+        public BallManager()
         {
             balls = new List<IBall>();
         }
@@ -43,12 +43,12 @@ namespace WinFormsApp1
                 if(ball.Pos.X < 0)
                 {
                     // if ball is moving wrong way in X axis, reverse X vector
-                    if(ball.Speed.X < 0)
+                    if(ball.Speed.X   < 0)
                     {
                         speed.X *= -1;
                     }
 
-                } else if (ball.Pos.X > WIDTH)
+                } else if (ball.Pos.X + ball.Size > WIDTH)
                 {
                     if (ball.Speed.X > 0)
                     {
@@ -56,16 +56,16 @@ namespace WinFormsApp1
                     }
                 }
 
-                if (ball.Pos.Y < 0)
+                if (ball.Pos.Y  < HEIGHT/10.0)
                 {
-                    // if ball is moving wrong way in X axis, reverse X vector
-                    if (ball.Speed.Y < 0)
+                    // if ball is moving wrong way in Y axis, reverse Y vector
+                    if (ball.Speed.Y  < 0)
                     {
                         speed.Y *= -1;
                     }
 
                 }
-                else if (ball.Pos.Y > HEIGHT)
+                else if (ball.Pos.Y + ball.Size > HEIGHT)
                 {
                     if (ball.Speed.Y > 0)
                     {
@@ -76,21 +76,22 @@ namespace WinFormsApp1
             }
         }
 
-        public void AddBall(Ball ball)
+        public void AddBall(IBall ball)
         {
             balls.Add(ball);
         }
 
-        public Ball GetBall(int index)
+        public IBall GetBall(int index)
         {
-            if (balls[index].GetType() == typeof(Ball))
-            return (Ball)balls[index];
-            throw new InvalidOperationException();
+            return (IBall)balls[index];
         }
 
-        public void UpdateSize()
+        public void DrawBalls(PaintEventArgs e)
         {
-            throw new NotImplementedException();
+            foreach (IBall ball in balls)
+            {
+                e.Graphics.FillEllipse(Brushes.BlueViolet, ball.Pos.X, ball.Pos.Y, ball.Size,ball.Size);
+            }
         }
     }
 }
