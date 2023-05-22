@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WinFormsApp1
+namespace BallFormApp
 {
     public interface IBall
     {
