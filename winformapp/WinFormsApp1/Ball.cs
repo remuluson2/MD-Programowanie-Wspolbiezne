@@ -12,7 +12,7 @@ namespace BallFormApp
         public int Size { get; set; }
         public Vector2 Pos { get; set; }
         public Vector2 Speed { get; set; }
-        public Ball(Vector2 pos, int newsize = 200)
+        public Ball(Vector2 pos, int newsize = 50)
         {
             Pos = pos;
             Size = newsize;
@@ -21,7 +21,7 @@ namespace BallFormApp
         {
             Pos = new Vector2(0, 0);
             Speed = new Vector2(0, 0);
-            Size = 200;
+            Size = 50;
         }
     }
 }
