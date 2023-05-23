@@ -12,5 +12,6 @@ namespace BallFormApp
         Vector2 Pos { get; set; }
         Vector2 Speed { get; set; }
         int Size { get; set; }
+        int Mass { get; set; }
     }
 }

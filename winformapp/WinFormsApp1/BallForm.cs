@@ -23,16 +23,15 @@ namespace WinFormsApp1
             manager = new BallManager();
             SimTimer = new System.Timers.Timer();
             SimTimer.Elapsed += SimulationTick;
-            SimTimer.Interval = 100;
+            SimTimer.Interval = 10;
         }
 
         private void BallForm_Load(object sender, EventArgs e)
         {
             manager.UpdateSize(this.ClientSize.Width, this.ClientSize.Height);
-            manager.AddBall(new Vector2(100, 200));
-            manager.AddBall(new Vector2(200, 100));
-            manager.AddBall(new Vector2(100, 300));
-            TimerSpeedTextBox.Text = SimTimer.Interval.ToString();
+            for(int i = 0; i < 2; i++)
+            manager.AddBall();
+            TimerSpeedTextBox.Text = "2";
             SimTimer.Start();
         }
 
@@ -57,9 +56,15 @@ namespace WinFormsApp1
         private void TimerSpeedTextBox_TextChanged(object sender, EventArgs e)
         {
             SimTimer.Stop();
-            int newInterval;
-            if (int.TryParse(TimerSpeedTextBox.Text, out newInterval))
-                SimTimer.Interval = newInterval;
+            int newCount;
+            if (int.TryParse(TimerSpeedTextBox.Text, out newCount))
+            {
+                manager.ClearBalls();
+                for(int i = 0;i< newCount; i++)
+                {
+                    manager.AddBall();
+                }
+            }
         }
 
         private void StartButton_Click(object sender, EventArgs e)

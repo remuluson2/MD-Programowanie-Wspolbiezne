@@ -9,6 +9,7 @@ namespace BallFormApp
 {
     public interface IBallManager
     {
+        void AddBall();
         void AddBall(IBall ball);
         void AddBall(Vector2 position);
         IBall GetBall(int index);

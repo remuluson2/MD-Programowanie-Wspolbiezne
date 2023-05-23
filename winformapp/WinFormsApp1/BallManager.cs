@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -16,6 +17,13 @@ namespace BallFormApp
         public BallManager()
         {
             balls = new List<IBall>();
+        }
+        public void AddBall()
+        {
+            Vector2 RandomPos = new Vector2();
+            RandomPos.X = Random.Shared.Next(0,WIDTH);
+            RandomPos.Y = Random.Shared.Next(0,HEIGHT);
+            AddBall(RandomPos);
         }
         public void AddBall(Vector2 position)
         {
@@ -44,6 +52,8 @@ namespace BallFormApp
             {
                 //start thread with updateball task
                 UpdateBall(ball);
+                //end of task
+                WallColision(ball);
             }
             //threads finish and close, app enters critical section
             HandleColisions();
@@ -52,7 +62,6 @@ namespace BallFormApp
         private void UpdateBall(IBall ball)
         {
             ball.Pos += ball.Speed;
-            WallColision(ball);
         }
         private void WallColision(IBall ball)
         {
@@ -104,24 +113,79 @@ namespace BallFormApp
                 {
                     if(CheckColision(balls[i], balls[j]))
                     {
-                        Separation(balls[i], balls[j]);
                         Deflection(balls[i], balls[j]);
                     }
                 }
             }
         }
-        private bool CheckColision(IBall ball1,IBall ball2)
+
+        private bool CheckColision(IBall ball1, IBall ball2)
         {
-            return false;
-        }
-        private void Separation(IBall ball1,IBall ball2)
-        {
+            double distance = Math.Sqrt(Math.Pow((ball1.Pos.X
+                                    + ball1.Speed.X)
+                                    - (ball2.Pos.X
+                                    + ball2.Speed.X), 2)
+                                    + Math.Pow((ball1.Pos.Y
+                                    + ball1.Speed.Y)
+                                    - (ball2.Pos.Y
+                                    + ball2.Speed.Y), 2));
+            if (Math.Abs(distance) <= ball1.Size/2 + ball2.Size/2)
+            {
+                return true;
+            } else {
+                return false;
+            }
 
         }
+
         private void Deflection(IBall ball1, IBall ball2)
         {
+                double mass = ball1.Mass;
+                double otherMass = ball2.Mass;
 
+                double[] velocity = new double[2] { ball1.Speed.X, ball1.Speed.Y };
+                double[] position = new double[2] {ball1.Pos.X, ball1.Pos.Y };
+
+                double[] velocityOther = new double[2] { ball2.Speed.X , ball2.Speed.Y };
+                double[] positionOther = new double[2] { ball2.Pos.X, ball2.Pos.Y };
+
+                double fDistance = (double)Math.Sqrt((position[0] - positionOther[0]) * (position[0] - positionOther[0])
+                       + (position[1] - positionOther[1]) * (position[1] - positionOther[1]));
+
+                double nx = (positionOther[0] - position[0]) / fDistance;
+                double ny = (positionOther[1] - position[1]) / fDistance;
+
+                double tx = -ny;
+                double ty = nx;
+
+                // Dot Product Tangent
+                double dpTan1 = velocity[0] * tx + velocity[1] * ty;
+                double dpTan2 = velocityOther[0] * tx + velocityOther[1] * ty;
+
+                // Dot Product Normal
+                double dpNorm1 = velocity[0] * nx + velocity[1] * ny;
+                double dpNorm2 = velocityOther[0] * nx + velocityOther[1] * ny;
+
+                // Conservation of momentum in 1D
+                double m1 = (dpNorm1 * (mass - otherMass) + 2.0f * otherMass * dpNorm2) / (mass + otherMass);
+                double m2 = (dpNorm2 * (otherMass - mass) + 2.0f * mass * dpNorm1) / (mass + otherMass);
+
+                double[] newMovements = new double[4]
+                {
+                    tx * dpTan1 + nx * m1,
+                    ty * dpTan1 + ny * m1,
+                    tx * dpTan2 + nx * m2,
+                    ty * dpTan2 + ny * m2
+                };
+            Vector2 newSpeed = new Vector2();
+            newSpeed.X = (float)newMovements[0];
+            newSpeed.Y = (float)newMovements[1];
+            ball1.Speed = newSpeed;
+            newSpeed.X = (float)newMovements[2];
+            newSpeed.Y = (float)newMovements[3];
+            ball2.Speed = newSpeed;
         }
+
         public void AddBall(IBall ball)
         {
             balls.Add(ball);
