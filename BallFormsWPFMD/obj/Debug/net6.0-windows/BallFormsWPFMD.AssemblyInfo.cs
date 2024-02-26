@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BallFormsWPFMD")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7041993db89d42c1642bb1fc4d0a993d924e3208")]
 [assembly: System.Reflection.AssemblyProductAttribute("BallFormsWPFMD")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BallFormsWPFMD")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
