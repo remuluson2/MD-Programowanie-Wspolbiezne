@@ -24,5 +24,11 @@ namespace BallFormsWPFMD
         {
             InitializeComponent();
         }
+
+        private void MainButton_Click(object sender, RoutedEventArgs e)
+        {
+            HWText.Content = "Hello World!";
+        }
     }
+    
 }

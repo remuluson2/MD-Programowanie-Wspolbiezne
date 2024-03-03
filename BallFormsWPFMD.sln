@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallFormsWPFMD", "BallFormsWPFMD\BallFormsWPFMD.csproj", "{936935E8-3EDA-469D-A8BC-D3BD6B623D3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BallFormsWPFMD", "BallFormsWPFMD\BallFormsWPFMD.csproj", "{936935E8-3EDA-469D-A8BC-D3BD6B623D3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSTest", "MSTest\MSTest.csproj", "{4A527A72-9754-48DD-A063-84038B885E94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{936935E8-3EDA-469D-A8BC-D3BD6B623D3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{936935E8-3EDA-469D-A8BC-D3BD6B623D3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{936935E8-3EDA-469D-A8BC-D3BD6B623D3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A527A72-9754-48DD-A063-84038B885E94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A527A72-9754-48DD-A063-84038B885E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A527A72-9754-48DD-A063-84038B885E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A527A72-9754-48DD-A063-84038B885E94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

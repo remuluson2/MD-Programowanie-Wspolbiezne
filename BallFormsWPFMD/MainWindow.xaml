@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Button x:Name="MainButton" Content="Button" HorizontalAlignment="Left" Height="67" Margin="191,68,0,0" VerticalAlignment="Top" Width="469" AutomationProperties.AutomationId="MainButton" Click="MainButton_Click"/>
+        <Label x:Name="HWText" Content="Some text." HorizontalAlignment="Left" Height="112" Margin="191,234,0,0" VerticalAlignment="Top" Width="469" AutomationProperties.AutomationId="HWText" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
     </Grid>
 </Window>
