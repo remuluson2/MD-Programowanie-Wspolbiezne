@@ -4,10 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PresentationLayer"
+        xmlns:viewmodel="clr-namespace:PresentationLayer.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <viewmodel:BallViewModel x:Name="viewModelObject" x:Key="vm"></viewmodel:BallViewModel>
+    </Window.Resources>
     <Grid>
-        <Button x:Name="MainButton" Content="Button" HorizontalAlignment="Left" Height="67" Margin="191,68,0,0" VerticalAlignment="Top" Width="469" AutomationProperties.AutomationId="MainButton" Click="MainButton_Click"/>
+        <Button x:Name="MainButton" Content="Button" HorizontalAlignment="Left" Height="67" Margin="191,68,0,0" VerticalAlignment="Top" Width="469" AutomationProperties.AutomationId="MainButton" Command="{Binding StartCommand, Source={StaticResource vm}}"/>
         <Label x:Name="HWText" Content="Some text." HorizontalAlignment="Left" Height="112" Margin="191,234,0,0" VerticalAlignment="Top" Width="469" AutomationProperties.AutomationId="HWText" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
     </Grid>

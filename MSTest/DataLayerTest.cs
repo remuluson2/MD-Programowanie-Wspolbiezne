@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LogicLayer;
 using DataLayer;
 
 namespace MSTest
@@ -11,29 +12,18 @@ namespace MSTest
     public class DataLayerTest
     {
         [TestMethod, TestCategory("DataLayer")]
-        public void TestAddAndRemove()
+        public void TestBall()
         {
-            IBallHolder holder = new BallHolder();
-            IBall ball1 = new Ball();
-            holder.Add(ball1);
-            Assert.IsTrue(holder.Contains(ball1));
-            holder.Remove(ball1);
-            Assert.IsFalse(holder.Contains(ball1));
-        }
-        [TestMethod, TestCategory("DataLayer")]
-        public void TestCount()
-        {
-            IBallHolder holder = new BallHolder();
-            IBall ball1 = new Ball();
-            IBall ball2 = new Ball();
-
-            holder.Add(ball1);
-            holder.Add(ball2);
-            Assert.AreEqual(2, holder.Count);
-            Assert.AreNotEqual(0, holder.Count);
-
-            holder.Clear();
-            Assert.AreEqual(0, holder.Count);
+            IBall ball = new Ball(ID:1);
+            Assert.IsNotNull(ball);
+            ball.ObjectX = 1;
+            Assert.IsTrue(ball.ObjectX == 1);
+            ball.ObjectY = 1;
+            Assert.IsTrue(ball.ObjectY == 1);
+            ball.ObjectVelocity = 1.0;
+            Assert.IsTrue(ball.ObjectVelocity == 1.0);
+            ball.ObjectY = 1;
+            Assert.IsTrue(ball.ObjectY == 1);
         }
     }
 }
