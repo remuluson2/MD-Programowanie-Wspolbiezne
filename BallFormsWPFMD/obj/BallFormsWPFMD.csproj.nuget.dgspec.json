@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mateusz\\source\\repos\\BallFormsWPFMD\\BallFormsWPFMD\\BallFormsWPFMD.csproj": {}
+    "C:\\Users\\Mateusz\\source\\repos\\remuluson2\\MD-Programowanie-Wspolbiezne\\BallFormsWPFMD\\BallFormsWPFMD.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mateusz\\source\\repos\\BallFormsWPFMD\\BallFormsWPFMD\\BallFormsWPFMD.csproj": {
+    "C:\\Users\\Mateusz\\source\\repos\\remuluson2\\MD-Programowanie-Wspolbiezne\\BallFormsWPFMD\\BallFormsWPFMD.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mateusz\\source\\repos\\BallFormsWPFMD\\BallFormsWPFMD\\BallFormsWPFMD.csproj",
+        "projectUniqueName": "C:\\Users\\Mateusz\\source\\repos\\remuluson2\\MD-Programowanie-Wspolbiezne\\BallFormsWPFMD\\BallFormsWPFMD.csproj",
         "projectName": "BallFormsWPFMD",
-        "projectPath": "C:\\Users\\Mateusz\\source\\repos\\BallFormsWPFMD\\BallFormsWPFMD\\BallFormsWPFMD.csproj",
+        "projectPath": "C:\\Users\\Mateusz\\source\\repos\\remuluson2\\MD-Programowanie-Wspolbiezne\\BallFormsWPFMD\\BallFormsWPFMD.csproj",
         "packagesPath": "C:\\Users\\Mateusz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mateusz\\source\\repos\\BallFormsWPFMD\\BallFormsWPFMD\\obj\\",
+        "outputPath": "C:\\Users\\Mateusz\\source\\repos\\remuluson2\\MD-Programowanie-Wspolbiezne\\BallFormsWPFMD\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -38,11 +38,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -67,7 +62,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
