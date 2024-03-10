@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using PresentationLayer.ViewModel;
+using System.Windows;
 
 namespace PresentationLayer
 {
@@ -10,6 +11,8 @@ namespace PresentationLayer
         public MainWindow()
         {
             InitializeComponent();
+            BallViewModel vm = new();
+            DataContext = vm;
         }
     }
     

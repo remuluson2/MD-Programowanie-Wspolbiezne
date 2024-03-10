@@ -11,8 +11,10 @@
         <viewmodel:BallViewModel x:Name="viewModelObject" x:Key="vm"></viewmodel:BallViewModel>
     </Window.Resources>
     <Grid>
-        <Button x:Name="MainButton" Content="Button" HorizontalAlignment="Left" Height="67" Margin="191,68,0,0" VerticalAlignment="Top" Width="469" AutomationProperties.AutomationId="MainButton" Command="{Binding StartCommand, Source={StaticResource vm}}"/>
-        <Label x:Name="HWText" Content="Some text." HorizontalAlignment="Left" Height="112" Margin="191,234,0,0" VerticalAlignment="Top" Width="469" AutomationProperties.AutomationId="HWText" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button x:Name="MainButton" Content="Start" HorizontalAlignment="Left" Height="29" Margin="27,26,0,0" VerticalAlignment="Top" Width="68" AutomationProperties.AutomationId="MainButton" Command="{Binding StartCommand}" CommandParameter="{Binding BallNumberInputString, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label x:Name="HWText" Content="Number of Balls:" HorizontalAlignment="Left" Height="27" Margin="204,28,0,0" VerticalAlignment="Top" Width="126" AutomationProperties.AutomationId="HWText" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button Content="Stop" HorizontalAlignment="Left" Height="29" Margin="114,26,0,0" VerticalAlignment="Top" Width="75" Command="{Binding StopCommand}"/>
+        <TextBox x:Name="In" HorizontalAlignment="Left" Height="17" Margin="330,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Text ="{Binding BallNumberInputString, UpdateSourceTrigger=PropertyChanged}"/>
 
     </Grid>
 </Window>

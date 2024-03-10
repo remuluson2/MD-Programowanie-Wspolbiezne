@@ -7,13 +7,13 @@ using System.Windows.Input;
 
 namespace PresentationLayer.ViewModel
 {
-    public class EndCommand : ICommand
+    public class StopCommand : ICommand
     {
 
         public event EventHandler? CanExecuteChanged;
         BallViewModel _ballViewModel;
 
-        public EndCommand(BallViewModel viewModel) 
+        public StopCommand(BallViewModel viewModel) 
         { 
             _ballViewModel = viewModel;
         }
