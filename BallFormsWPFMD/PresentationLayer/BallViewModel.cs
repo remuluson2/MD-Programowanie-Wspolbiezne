@@ -1,7 +1,5 @@
-﻿using BallFormsWPFMD.PresentationLayer;
+﻿using PresentationLayer;
 using LogicLayer;
-using System;
-using System.Timers;
 
 namespace PresentationLayer.ViewModel
 {
@@ -67,16 +65,24 @@ namespace PresentationLayer.ViewModel
 
         public void OnNumberOfBallsChange()
         {
-            BallsCollection.Clear();
-            BallsCollection.SetNewArea(SimAreaWidth, SimAreaHeight);
-            BallsCollection.InitBalls(int.Parse(BallNumberInputString));
+            if (StopCommand.CanExecute(null))
+            {
+                StopCommand.Execute(null);
+                BallsCollection.Clear();
+                BallsCollection.SetNewArea(SimAreaWidth, SimAreaHeight);
+                BallsCollection.InitBalls(int.Parse(BallNumberInputString));
+            }
         }
 
         public void OnSizeOfBallsChange()
         {
-            BallsCollection.Clear();
-            BallsCollection.SetNewSize(int.Parse(BallSizeInputString));
-            BallsCollection.InitBalls(int.Parse(BallNumberInputString));
+            if (StopCommand.CanExecute(null))
+            {
+                StopCommand.Execute(null);
+                BallsCollection.Clear();
+                BallsCollection.SetNewSize(int.Parse(BallSizeInputString));
+                BallsCollection.InitBalls(int.Parse(BallNumberInputString));
+            }
         }
 
         public void OnStartCommand()

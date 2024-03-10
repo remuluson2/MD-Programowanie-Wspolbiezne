@@ -10,10 +10,20 @@ namespace LogicLayer
     public class BallHolder : IBallHolder
     {
         public ObservableCollection<IBall> Balls {  get; private set; }
+
         readonly Timer cycleTimer;
         double limitX = 0;
         double limitY = 0;
         int defaultRadius = 100;
+
+        public override int Count 
+        {
+            get 
+            { 
+                return Balls.Count;
+            }
+        }
+
 
         public override event NotifyCollectionChangedEventHandler? CollectionChanged;
 

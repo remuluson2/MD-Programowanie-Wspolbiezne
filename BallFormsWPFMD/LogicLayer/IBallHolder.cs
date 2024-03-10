@@ -14,6 +14,8 @@ namespace LogicLayer
     {
         public abstract event NotifyCollectionChangedEventHandler? CollectionChanged;
 
+        public abstract int Count { get; }
+
         public abstract void AddBall();
         public abstract void DelBall(int index);
 

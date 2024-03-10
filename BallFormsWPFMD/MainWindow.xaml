@@ -3,10 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PresentationLayer"
-        xmlns:viewmodel="clr-namespace:PresentationLayer.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="480" Width="840">
     <Grid>
         <!--
         <Canvas HorizontalAlignment="Center" Height="360" Margin="0,74,0,0" VerticalAlignment="Top" Width="800" Background="#FFB5DFFF">
@@ -19,7 +17,7 @@
         <TextBox x:Name="Input" HorizontalAlignment="Left" Height="17" Margin="330,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Text ="{Binding BallNumberInputString, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Content="Size of Balls:" HorizontalAlignment="Left" Height="27" Margin="418,27,0,0" VerticalAlignment="Top" Width="75" AutomationProperties.AutomationId="HWText" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <TextBox x:Name="Input_Kopiuj" HorizontalAlignment="Left" Height="17" Margin="513,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Text ="{Binding BallSizeInputString, UpdateSourceTrigger=PropertyChanged}"/>
-        <ItemsControl x:Name="BallCanvasControl" ItemsSource="{Binding BallsCollection.Balls, UpdateSourceTrigger=PropertyChanged}" Margin="0,70,0,0">
+        <ItemsControl x:Name="BallCanvasControl" ItemsSource="{Binding BallsCollection.Balls, UpdateSourceTrigger=PropertyChanged}" Margin="0,70,0,0" Grid.ColumnSpan="2">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas x:Name="BallCanvas" HorizontalAlignment="Center" Width="{Binding SimAreaWidth, Mode=OneTime}" Height="{Binding SimAreaHeight, Mode=OneTime}" VerticalAlignment="Top" Background="#FF71B2ED"/>
