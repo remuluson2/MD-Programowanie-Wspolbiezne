@@ -1,31 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
 
 namespace DataLayer
 {
     public class Ball : IBall
     {
         private readonly int ID = 0;
-        public int X;
-        public int Y;
-        public double Velocity;
-        private readonly double Mass = 0.0;
+        private double X;
+        private double Y;
+        private double velX;
+        private double velY;
+        private double size;
+        private readonly double mass = 0.0;
 
         public override event PropertyChangedEventHandler? PropertyChanged;
 
-        public Ball(int ID, int X = 0, int Y = 0, double Mass = 0.0, double Velocity = 0.0)
+        public Ball(int ID, int X = 0, int Y = 0, double Mass = 0.0, double velocityX = 0.0, double velocityY = 0.0, double size = 50.0)
         {
             this.ID = ID;
             this.X = X;
             this.Y = Y;
-            this.Mass = Mass;
-            this.Velocity = Velocity;
+            this.mass = Mass;
+            this.velX = velocityX;
+            this.velY = velocityY;
+            this.size = size;
         }
 
         public override int ObjectID
@@ -33,7 +31,7 @@ namespace DataLayer
             get { return ID; }
         }
 
-        public override int ObjectX
+        public override double ObjectX
         {
             get { return X; }
             set
@@ -43,7 +41,7 @@ namespace DataLayer
             }
         }
 
-        public override int ObjectY
+        public override double ObjectY
         {
             get { return Y; }
             set
@@ -53,15 +51,27 @@ namespace DataLayer
             }
         }
 
-        public override double ObjectVelocity
+        public override double ObjectVelocityX
         {
-            get { return Velocity; }
-            set { Velocity = value; }
+            get { return velX; }
+            set { velX = value; }
+        }
+
+        public override double ObjectVelocityY
+        {
+            get { return velY; }
+            set { velY = value; }
+        }
+
+        public override double ObjectSize
+        { 
+          get { return size; }
+          set { size = value; }
         }
 
         public override double ObjectMass
         {
-            get { return Mass; }
+            get { return mass; }
         }
 
         protected void OnPropertyChanged([CallerMemberName] string? name = null)

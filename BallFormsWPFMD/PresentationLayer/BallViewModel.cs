@@ -1,67 +1,92 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using BallFormsWPFMD.PresentationLayer;
+﻿using BallFormsWPFMD.PresentationLayer;
 using LogicLayer;
+using System;
+using System.Timers;
 
 namespace PresentationLayer.ViewModel
 {
     public class BallViewModel : ViewModelBase
     {
-        IBallHolder BallHolder { get; set; }
+        public IBallHolder BallsCollection { get; set; }
         public StartCommand StartCommand { get; set; }
         public StopCommand StopCommand { get; set; }
-        public int ballnumber;
 
-        private string ballInputNumberString;
+        public double SimAreaWidth { get; set; }
+        public double SimAreaHeight { get; set; }
+
+        private string ballNumberInputString;
 
         public string BallNumberInputString 
         {  
            get
             {
-                return ballInputNumberString;
+                return ballNumberInputString;
             }
 
            set 
            { 
-                ballInputNumberString = value;
+                ballNumberInputString = value;
                 OnPropertyChanged();
+                OnNumberOfBallsChange();
                 StartCommand.PokePossibleExecuteChanged();
            }
         }
 
-        private string testText;
+        private string ballSizeInputString;
 
-        public string TestText
+        public string BallSizeInputString
         {
             get
             {
-                return testText;
+                return ballSizeInputString;
             }
 
             set
             {
-                testText = value;
+                ballSizeInputString = value;
                 OnPropertyChanged();
+                OnSizeOfBallsChange();
             }
         }
 
-        public BallViewModel() 
+        public BallViewModel()
         {
-            ballInputNumberString = string.Empty;
+
             StartCommand = new StartCommand(this);
             StopCommand = new StopCommand(this);
-            BallHolder = new BallHolder();
+            BallsCollection = new BallHolder();
+
+
+            ballNumberInputString = string.Empty;
+            ballSizeInputString = "100";
+
+            SimAreaWidth = 800;
+            SimAreaHeight = 340;
+
+        }
+
+        public void OnNumberOfBallsChange()
+        {
+            BallsCollection.Clear();
+            BallsCollection.SetNewArea(SimAreaWidth, SimAreaHeight);
+            BallsCollection.InitBalls(int.Parse(BallNumberInputString));
+        }
+
+        public void OnSizeOfBallsChange()
+        {
+            BallsCollection.Clear();
+            BallsCollection.SetNewSize(int.Parse(BallSizeInputString));
+            BallsCollection.InitBalls(int.Parse(BallNumberInputString));
         }
 
         public void OnStartCommand()
         {
-            ballInputNumberString = "Start!";
+            BallsCollection.StartTimer();
         }
 
-        public void OnEndCommand()
+        public void OnStopCommand()
         {
-            MessageBox.Show("END!");
+            BallsCollection.StopTimer();
         }
 
     }

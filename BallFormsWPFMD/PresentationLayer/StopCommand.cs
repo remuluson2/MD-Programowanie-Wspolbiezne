@@ -25,7 +25,7 @@ namespace PresentationLayer.ViewModel
 
         public void Execute(object? parameter)
         {
-            _ballViewModel.OnEndCommand();
+            _ballViewModel.OnStopCommand();
         }
     }
 }
