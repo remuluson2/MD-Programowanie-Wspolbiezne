@@ -8,9 +8,7 @@ namespace DataLayer
     {
         private readonly int _ID = 0;
         private double _x;
-        private double _centerX;
         private double _y;
-        private double _centerY;
         private double _velX;
         private double _velY;
         private double _size;
@@ -99,5 +97,20 @@ namespace DataLayer
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        public override void Move()
+        {
+            double newcordX = ObjectX + ObjectVelocityX;
+            double newcordY = ObjectY + ObjectVelocityY;
+            
+            if (ObjectX != newcordX)
+            {
+                ObjectX = newcordX;
+            }
+
+            if (ObjectY != newcordY)
+            {
+                ObjectY = newcordY;
+            }
+        }
     }
 }

@@ -110,80 +110,13 @@ namespace LogicLayer
             return random.NextDouble() * 10.0 - 5.0;
         }
 
-        public static double CalcKinEnergy(double x, double e)
-        {
-            return 0.5 * x * e;
-        }
-
-        /*public void CalcCollision(int indexOne, int indexTwo)
-        {
-            try
-            {
-                double massOne = balls.ElementAt(indexOne).ObjectMass, massTwo = balls.ElementAt(indexTwo).ObjectMass;
-                double speedOne = balls.ElementAt(indexOne).ObjectVelocity, speedTwo = balls.ElementAt(indexTwo).ObjectVelocity;
-                double newSpeedOne = (speedOne * (massOne - massTwo) + 2 * massTwo * speedTwo) / (massOne + massTwo);
-                double newSpeedTwo = (speedTwo * (massTwo - massOne) + 2 * massOne * speedOne) / (massOne + massTwo);
-                balls.ElementAt(indexOne).ObjectVelocity = newSpeedOne;
-                balls.ElementAt(indexTwo).ObjectVelocity = newSpeedTwo;
-            }
-            catch (Exception)
-            {
-                throw new ArgumentOutOfRangeException("Error: calcCollision, indexOne: " + indexOne + ", indexTwo:" + indexTwo);
-            }
-        }*/
-
-
         public void MoveBalls()
         {
             foreach(var ball in Balls)
             {
-                double newcordX = ball.ObjectX + ball.ObjectVelocityX;
-                double newcordY = ball.ObjectY + ball.ObjectVelocityY;
-                double newvelX = ball.ObjectVelocityX;
-                double newvelY = ball.ObjectVelocityY;
-
-                if (newcordX > limitX - ball.ObjectSize)
-                {
-                    newcordX = limitX - ball.ObjectSize;
-                    newvelX = -newvelX;
-                }
-                if (newcordX < 0)
-                {
-                    newcordX = 0;
-                    newvelX = -newvelX;
-                }
-                if (newcordY > limitY - ball.ObjectSize)
-                {
-                    newcordY = limitY - ball.ObjectSize;
-                    newvelY = -newvelY;
-                }
-                if (newcordY < 0) 
-                { 
-                    newcordY = 0;
-                    newvelY = -newvelY;
-                }
-
-                if (ball.ObjectX != newcordX)
-                {
-                    ball.ObjectX = newcordX;
-                }
-
-                if (ball.ObjectY != newcordY)
-                {
-                    ball.ObjectY = newcordY;
-                }
-
-                if (ball.ObjectVelocityX != newvelX)
-                {
-                    ball.ObjectVelocityX = newvelX;
-                }
-
-                if (ball.ObjectVelocityY != newvelY)
-                {
-                    ball.ObjectVelocityY = newvelY;
-                }
-
+                ball.Move();
             }
+
             CheckColisions();
         }
 
@@ -209,6 +142,7 @@ namespace LogicLayer
 
             foreach (var ball in Balls)
             {
+                BorderColision(ball);
                 foreach (var target in Balls)
                 {
                     if (ball.ObjectID != target.ObjectID)
@@ -216,21 +150,99 @@ namespace LogicLayer
                         if(DoCirclesOverlap(ball,target))
                         {
                             //ball.ObjectBrush = Brushes.Blue;
-                            double distance = Math.Sqrt((ball.ObjectX -  target.ObjectX)*(ball.ObjectX - target.ObjectX) + (ball.ObjectY - target.ObjectY)*(ball.ObjectY - target.ObjectY));
-                            double overlap = 0.5d * (distance - ball.ObjectRadius - target.ObjectRadius);
-
-                            ball.ObjectX -= overlap * (ball.ObjectX - target.ObjectX) / distance;
-                            ball.ObjectY -= overlap * (ball.ObjectY - target.ObjectY) / distance;
-
-                            target.ObjectX += overlap * (ball.ObjectX - target.ObjectX) / distance;
-                            target.ObjectY += overlap * (ball.ObjectY - target.ObjectY) / distance;
+                            StaticColision(ball, target);
+                            DynamicColision(ball, target);
                         }
                     }
                 }
             }
         }
+
+        public void BorderColision(IBall ball)
+        {
+            double newcordX = ball.ObjectX;
+            double newcordY = ball.ObjectY;
+            double newvelX = ball.ObjectVelocityX;
+            double newvelY = ball.ObjectVelocityY;
+
+            if (newcordX > limitX - ball.ObjectSize)
+            {
+                newcordX = limitX - ball.ObjectSize;
+                newvelX = -newvelX;
+            }
+            if (newcordX < 0)
+            {
+                newcordX = 0;
+                newvelX = -newvelX;
+            }
+            if (newcordY > limitY - ball.ObjectSize)
+            {
+                newcordY = limitY - ball.ObjectSize;
+                newvelY = -newvelY;
+            }
+            if (newcordY < 0)
+            {
+                newcordY = 0;
+                newvelY = -newvelY;
+            }
+
+            if (ball.ObjectVelocityX != newvelX)
+            {
+                ball.ObjectVelocityX = newvelX;
+            }
+
+            if (ball.ObjectVelocityY != newvelY)
+            {
+                ball.ObjectVelocityY = newvelY;
+            }
+
+            if (ball.ObjectX != newcordX)
+            {
+                ball.ObjectX = newcordX;
+            }
+
+            if (ball.ObjectY != newcordY)
+            {
+                ball.ObjectY = newcordY;
+            }
+        }
+
         public void StaticColision(IBall ball1, IBall ball2)
         {
+            double distance = Math.Sqrt((ball1.ObjectX - ball2.ObjectX) * (ball1.ObjectX - ball2.ObjectX) + (ball1.ObjectY - ball2.ObjectY) * (ball1.ObjectY - ball2.ObjectY));
+            double overlap = 0.5d * (distance - ball1.ObjectRadius - ball2.ObjectRadius);
+
+            ball1.ObjectX -= overlap * (ball1.ObjectX - ball2.ObjectX) / distance;
+            ball1.ObjectY -= overlap * (ball1.ObjectY - ball2.ObjectY) / distance;
+
+            ball2.ObjectX += overlap * (ball1.ObjectX - ball2.ObjectX) / distance;
+            ball2.ObjectY += overlap * (ball1.ObjectY - ball2.ObjectY) / distance;
+        }
+
+        public void DynamicColision(IBall ball1, IBall ball2)
+        {
+            double distance = Math.Sqrt((ball1.ObjectX - ball2.ObjectX) * (ball1.ObjectX - ball2.ObjectX) + (ball1.ObjectY - ball2.ObjectY) * (ball1.ObjectY - ball2.ObjectY));
+
+            double nx = (ball2.ObjectX - ball1.ObjectX) / distance;
+            double ny = (ball2.ObjectY - ball1.ObjectY) / distance;
+
+            double tx = -ny;
+            double ty = nx;
+
+            double dpTan1 = ball1.ObjectVelocityX * tx + ball1.ObjectVelocityY * ty;
+            double dpTan2 = ball2.ObjectVelocityX * tx + ball2.ObjectVelocityY * ty;
+
+            double dpNorm1 = ball1.ObjectVelocityX * nx + ball1.ObjectVelocityY * ny;
+            double dpNorm2 = ball2.ObjectVelocityX * nx + ball2.ObjectVelocityY * ny;
+
+            double momentum1 = dpNorm2;
+            double momentum2 = dpNorm1;
+
+            ball1.ObjectVelocityX = tx * dpTan1 + nx * momentum1;
+            ball1.ObjectVelocityY = ty * dpTan1 + ny * momentum1;
+
+            ball2.ObjectVelocityX = tx * dpTan2 + nx * momentum2;
+            ball2.ObjectVelocityY = ty * dpTan2 + ny * momentum2;
 
         }
 

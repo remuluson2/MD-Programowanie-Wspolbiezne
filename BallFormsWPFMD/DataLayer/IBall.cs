@@ -22,5 +22,6 @@ namespace DataLayer
         public abstract Brush ObjectBrush { get; set; }
 
         public abstract event PropertyChangedEventHandler? PropertyChanged;
+        public abstract void Move();
     }
 }
