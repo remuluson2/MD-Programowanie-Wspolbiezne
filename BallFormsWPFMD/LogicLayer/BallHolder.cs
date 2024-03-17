@@ -3,7 +3,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Timers;
+using System.Windows.Media;
 
 namespace LogicLayer
 {
@@ -52,10 +54,10 @@ namespace LogicLayer
             {
                 Balls.Add(
                     new Ball(
-                        Balls.Count + 1, 
-                        GenRandomInt(0, (int)limitX - defaultRadius), 
-                        GenRandomInt(0, (int)limitY - defaultRadius), 
-                        velocityX: GenRandomDouble(), 
+                        Balls.Count + 1,
+                        GenRandomInt(0, (int)limitX - defaultRadius),
+                        GenRandomInt(0, (int)limitY - defaultRadius),
+                        velocityX: GenRandomDouble(),
                         velocityY: GenRandomDouble(),
                         size: defaultRadius)
                     );
@@ -130,6 +132,7 @@ namespace LogicLayer
             }
         }*/
 
+
         public void MoveBalls()
         {
             foreach(var ball in Balls)
@@ -181,6 +184,54 @@ namespace LogicLayer
                 }
 
             }
+            CheckColisions();
+        }
+
+        public void CheckColisions()
+        {
+            static bool DoCirclesOverlap(IBall ball1, IBall ball2)
+            {
+                //Size is actualy radius * 2 so we need to divide it first
+                double r1 = ball1.ObjectRadius;
+                double x1 = ball1.ObjectX;
+                double y1 = ball1.ObjectY;
+
+                double r2 = ball2.ObjectRadius;
+                double x2 = ball2.ObjectX;
+                double y2 = ball2.ObjectY;
+
+                return Math.Abs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) <= (r1 + r2) * (r1 + r2);
+            }
+            foreach (var ball in Balls)
+            {
+                ball.ObjectBrush = Brushes.Red;
+            }
+
+            foreach (var ball in Balls)
+            {
+                foreach (var target in Balls)
+                {
+                    if (ball.ObjectID != target.ObjectID)
+                    {
+                        if(DoCirclesOverlap(ball,target))
+                        {
+                            //ball.ObjectBrush = Brushes.Blue;
+                            double distance = Math.Sqrt((ball.ObjectX -  target.ObjectX)*(ball.ObjectX - target.ObjectX) + (ball.ObjectY - target.ObjectY)*(ball.ObjectY - target.ObjectY));
+                            double overlap = 0.5d * (distance - ball.ObjectRadius - target.ObjectRadius);
+
+                            ball.ObjectX -= overlap * (ball.ObjectX - target.ObjectX) / distance;
+                            ball.ObjectY -= overlap * (ball.ObjectY - target.ObjectY) / distance;
+
+                            target.ObjectX += overlap * (ball.ObjectX - target.ObjectX) / distance;
+                            target.ObjectY += overlap * (ball.ObjectY - target.ObjectY) / distance;
+                        }
+                    }
+                }
+            }
+        }
+        public void StaticColision(IBall ball1, IBall ball2)
+        {
+
         }
 
         public override void Dispose()

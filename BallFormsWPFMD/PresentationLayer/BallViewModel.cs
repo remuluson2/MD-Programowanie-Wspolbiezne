@@ -1,5 +1,4 @@
-﻿using PresentationLayer;
-using LogicLayer;
+﻿using LogicLayer;
 
 namespace PresentationLayer.ViewModel
 {

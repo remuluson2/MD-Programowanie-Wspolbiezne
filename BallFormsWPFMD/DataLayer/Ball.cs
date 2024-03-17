@@ -1,77 +1,97 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Media;
 
 namespace DataLayer
 {
     public class Ball : IBall
     {
-        private readonly int ID = 0;
-        private double X;
-        private double Y;
-        private double velX;
-        private double velY;
-        private double size;
-        private readonly double mass = 0.0;
+        private readonly int _ID = 0;
+        private double _x;
+        private double _centerX;
+        private double _y;
+        private double _centerY;
+        private double _velX;
+        private double _velY;
+        private double _size;
+        private Brush _brush;
+        private readonly double _mass = 0.0;
 
         public override event PropertyChangedEventHandler? PropertyChanged;
 
         public Ball(int ID, int X = 0, int Y = 0, double Mass = 0.0, double velocityX = 0.0, double velocityY = 0.0, double size = 50.0)
         {
-            this.ID = ID;
-            this.X = X;
-            this.Y = Y;
-            this.mass = Mass;
-            this.velX = velocityX;
-            this.velY = velocityY;
-            this.size = size;
+            this._ID = ID;
+            this._x = X;
+            this._y = Y;
+            this._mass = Mass;
+            this._velX = velocityX;
+            this._velY = velocityY;
+            this._size = size;
+            this._brush = Brushes.Red;
         }
 
         public override int ObjectID
         {
-            get { return ID; }
+            get { return _ID; }
         }
 
         public override double ObjectX
         {
-            get { return X; }
+            get { return _x; }
             set
             {
-                X = value;
+                _x = value;
                 OnPropertyChanged();
             }
         }
 
         public override double ObjectY
         {
-            get { return Y; }
+            get { return _y; }
             set
             {
-                Y = value;
+                _y = value;
                 OnPropertyChanged();
             }
         }
 
         public override double ObjectVelocityX
         {
-            get { return velX; }
-            set { velX = value; }
+            get { return _velX; }
+            set { _velX = value; }
         }
 
         public override double ObjectVelocityY
         {
-            get { return velY; }
-            set { velY = value; }
+            get { return _velY; }
+            set { _velY = value; }
         }
 
         public override double ObjectSize
         { 
-          get { return size; }
-          set { size = value; }
+          get { return _size; }
+          set { _size = value; }
         }
 
         public override double ObjectMass
         {
-            get { return mass; }
+            get { return _mass; }
+        }
+
+        public override Brush ObjectBrush 
+        {
+            get { return _brush; }
+            set 
+            {
+                _brush = value;
+                OnPropertyChanged();
+            } 
+        }
+
+        public override double ObjectRadius
+        {
+            get { return _size / 2; }
         }
 
         protected void OnPropertyChanged([CallerMemberName] string? name = null)

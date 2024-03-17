@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace DataLayer
 {
@@ -16,6 +18,8 @@ namespace DataLayer
         public abstract double ObjectVelocityY { get; set; }
         public abstract double ObjectSize { get; set; }
         public abstract double ObjectMass { get; }
+        public abstract double ObjectRadius { get; }
+        public abstract Brush ObjectBrush { get; set; }
 
         public abstract event PropertyChangedEventHandler? PropertyChanged;
     }
