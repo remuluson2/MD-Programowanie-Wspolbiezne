@@ -57,16 +57,15 @@ namespace LogicLayer
         {
             try
             {
-                Balls.Add(
-                    new Ball(
+                var newBall = new Ball(
                         Balls.Count + 1,
                         GenRandomInt(0, (int)limitX - defaultRadius),
                         GenRandomInt(0, (int)limitY - defaultRadius),
                         velocityX: GenRandomDouble(),
                         velocityY: GenRandomDouble(),
-                        size: defaultRadius)
-                    );
-                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
+                        size: defaultRadius);
+                Balls.Add(newBall);
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newBall));
             }
             catch (Exception)
             {
