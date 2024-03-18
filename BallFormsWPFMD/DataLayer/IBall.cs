@@ -14,6 +14,7 @@ namespace DataLayer
         public abstract double ObjectSize { get; set; }
         public abstract double ObjectMass { get; }
         public abstract double ObjectRadius { get; }
+        public abstract Task ObjectMoveTask { get; }
         public abstract Brush ObjectBrush { get; set; }
 
         public abstract event PropertyChangedEventHandler? PropertyChanged;

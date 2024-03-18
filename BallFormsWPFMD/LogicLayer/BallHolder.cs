@@ -116,12 +116,16 @@ namespace LogicLayer
         {
             if (moveBallsTask == null ||  moveBallsTask.IsCompleted)
             {
-                List<Task> ballTasks = new List<Task>();
+                List<Task> ballTasks = new();
                 foreach (var ball in Balls)
                 {
                     ballTasks.Add(ball.Move());
                 }
                 moveBallsTask = Task.WhenAll(ballTasks.ToArray());
+                foreach (var task in ballTasks)
+                {
+                    task.Start();
+                }
 
                 CheckColisions();
             }

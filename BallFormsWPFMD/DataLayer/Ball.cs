@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel;
-using System.Configuration;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Automation.Provider;
 using System.Windows.Media;
 
 namespace DataLayer
@@ -17,6 +15,7 @@ namespace DataLayer
         private double _size;
         private Brush _brush;
         private readonly double _mass = 0.0;
+        private Task _moveTask;
 
         public override event PropertyChangedEventHandler? PropertyChanged;
 
@@ -95,27 +94,40 @@ namespace DataLayer
             get { return _size / 2; }
         }
 
+        public override Task ObjectMoveTask
+        {
+            get { return _moveTask; }
+        }
+
         protected void OnPropertyChanged([CallerMemberName] string? name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public async override Task Move()
+        public override Task Move()
+        {
+            if(_moveTask == null || _moveTask.IsCompletedSuccessfully)
+            {
+                _moveTask = new Task(calcMove);
+            }
+            return _moveTask;
+
+        }
+
+        private void calcMove()
         {
             double newcordX = ObjectX + ObjectVelocityX;
             double newcordY = ObjectY + ObjectVelocityY;
-            
+
             if (ObjectX != newcordX)
             {
-                 ObjectX = newcordX;
+                ObjectX = newcordX;
             }
 
             if (ObjectY != newcordY)
             {
                 ObjectY = newcordY;
             }
-
-            return;
         }
     }
 }
