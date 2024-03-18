@@ -14,11 +14,13 @@ namespace LogicLayer
     public class BallHolder : IBallHolder
     {
         public ObservableCollection<IBall> Balls {  get; private set; }
-        Task moveBallsTask;
         readonly Timer cycleTimer;
         double limitX = 0;
         double limitY = 0;
         int defaultRadius = 100;
+
+        Task moveBallsTask;
+        List<Task> ballTasks;
 
         public override int Count 
         {
@@ -34,6 +36,7 @@ namespace LogicLayer
         public BallHolder(double limitX = 100, double limitY = 100)
         {
             Balls = new ObservableCollection<IBall>();
+            ballTasks = new List<Task>();
             this.limitX = limitX;
             this.limitY = limitY;
 
@@ -112,17 +115,17 @@ namespace LogicLayer
             return random.NextDouble() * 10.0 - 5.0;
         }
 
-        public void MoveBalls()
+        public async void MoveBalls()
         {
             if (moveBallsTask == null ||  moveBallsTask.IsCompleted)
             {
-                List<Task> ballTasks = new List<Task>();
+                ballTasks.Clear();
                 foreach (var ball in Balls)
                 {
                     ballTasks.Add(ball.Move());
                 }
                 moveBallsTask = Task.WhenAll(ballTasks.ToArray());
-
+                moveBallsTask?.Wait();
                 CheckColisions();
             }
         }
