@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel;
+using System.Configuration;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows.Automation.Provider;
 using System.Windows.Media;
 
 namespace DataLayer
@@ -97,20 +100,22 @@ namespace DataLayer
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public override void Move()
+        public async override Task Move()
         {
             double newcordX = ObjectX + ObjectVelocityX;
             double newcordY = ObjectY + ObjectVelocityY;
             
             if (ObjectX != newcordX)
             {
-                ObjectX = newcordX;
+                 ObjectX = newcordX;
             }
 
             if (ObjectY != newcordY)
             {
                 ObjectY = newcordY;
             }
+
+            return;
         }
     }
 }

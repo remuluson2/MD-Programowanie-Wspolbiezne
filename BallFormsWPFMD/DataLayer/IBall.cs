@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace DataLayer
 {
@@ -22,6 +17,6 @@ namespace DataLayer
         public abstract Brush ObjectBrush { get; set; }
 
         public abstract event PropertyChangedEventHandler? PropertyChanged;
-        public abstract void Move();
+        public abstract Task Move();
     }
 }

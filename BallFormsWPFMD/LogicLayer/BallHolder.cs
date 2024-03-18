@@ -1,9 +1,11 @@
 ﻿using DataLayer;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Media;
 
@@ -12,7 +14,7 @@ namespace LogicLayer
     public class BallHolder : IBallHolder
     {
         public ObservableCollection<IBall> Balls {  get; private set; }
-
+        Task moveBallsTask;
         readonly Timer cycleTimer;
         double limitX = 0;
         double limitY = 0;
@@ -112,12 +114,17 @@ namespace LogicLayer
 
         public void MoveBalls()
         {
-            foreach(var ball in Balls)
+            if (moveBallsTask == null ||  moveBallsTask.IsCompleted)
             {
-                ball.Move();
-            }
+                List<Task> ballTasks = new List<Task>();
+                foreach (var ball in Balls)
+                {
+                    ballTasks.Add(ball.Move());
+                }
+                moveBallsTask = Task.WhenAll(ballTasks.ToArray());
 
-            CheckColisions();
+                CheckColisions();
+            }
         }
 
         public void CheckColisions()
