@@ -8,8 +8,4 @@
     <StartupObject>PresentationLayer.App</StartupObject>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="LogicLayer\" />
-  </ItemGroup>
-
 </Project>

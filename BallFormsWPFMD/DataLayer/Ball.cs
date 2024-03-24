@@ -1,14 +1,19 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Configuration;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Automation.Provider;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Xml.Serialization;
 
 namespace DataLayer
 {
     public class Ball : IBall
     {
+        private readonly SemaphoreSlim _lock;
         private readonly int _ID = 0;
         private double _x;
         private double _y;
@@ -22,6 +27,7 @@ namespace DataLayer
 
         public Ball(int ID, int X = 0, int Y = 0, double Mass = 0.0, double velocityX = 0.0, double velocityY = 0.0, double size = 50.0)
         {
+            _lock = new SemaphoreSlim(1);
             this._ID = ID;
             this._x = X;
             this._y = Y;
@@ -104,18 +110,65 @@ namespace DataLayer
         {
             double newcordX = ObjectX + ObjectVelocityX;
             double newcordY = ObjectY + ObjectVelocityY;
-            
-            if (ObjectX != newcordX)
-            {
-                 ObjectX = newcordX;
-            }
 
-            if (ObjectY != newcordY)
-            {
-                ObjectY = newcordY;
-            }
-
+            await SetCordsAsync(newcordX, newcordY);
             return;
+        }
+
+        public async override Task SetCordsAsync(double newx, double newy)
+        {
+            await _lock.WaitAsync();
+            if (newx != ObjectX)
+            {
+                ObjectX = newx;
+            }
+            if (newy != ObjectY)
+            {
+                ObjectY = newy;
+            }
+            _lock.Release();
+        }
+
+        public override async Task SetVelAsync(double newx, double newy)
+        {
+            await _lock.WaitAsync();
+            if (newx != ObjectVelocityX)
+            {
+                ObjectVelocityX = newx;
+            }
+            if (newy != ObjectVelocityY)
+            {
+                ObjectVelocityY = newy;
+            }
+            _lock.Release();
+        }
+
+        public override async Task<double> GetXAsync()
+        {
+            await _lock.WaitAsync();
+            _lock.Release();
+            return ObjectX;
+        }
+
+        public override async Task<double> GetYAsync()
+        {
+            await _lock.WaitAsync();
+            _lock.Release();
+            return ObjectY;
+        }
+
+        public override async Task<double> GetVolXAsync()
+        {
+            await _lock.WaitAsync();
+            _lock.Release();
+            return ObjectVelocityX;
+        }
+
+        public override async Task<double> GetVolYAsync()
+        {
+            await _lock.WaitAsync();
+            _lock.Release();
+            return ObjectVelocityY;
         }
     }
 }

@@ -19,8 +19,8 @@ namespace LogicLayer
         double limitY = 0;
         int defaultRadius = 100;
 
-        Task moveBallsTask;
-        List<Task> ballTasks;
+        Task? moveBallsTask;
+        readonly List<Task> ballTasks;
 
         public override int Count 
         {
@@ -124,23 +124,23 @@ namespace LogicLayer
                     ballTasks.Add(ball.Move());
                 }
                 moveBallsTask = Task.WhenAll(ballTasks.ToArray());
-                moveBallsTask?.Wait();
-                CheckColisions();
+                await moveBallsTask;
+                await CheckColisionsAsync();
             }
         }
 
-        public void CheckColisions()
+        public async Task CheckColisionsAsync()
         {
-            static bool DoCirclesOverlap(IBall ball1, IBall ball2)
+            static async Task<bool> DoCirclesOverlapAsync(IBall ball1, IBall ball2)
             {
                 //Size is actualy radius * 2 so we need to divide it first
                 double r1 = ball1.ObjectRadius;
-                double x1 = ball1.ObjectX;
-                double y1 = ball1.ObjectY;
+                double x1 = await ball1.GetXAsync();
+                double y1 = await ball1.GetYAsync();
 
                 double r2 = ball2.ObjectRadius;
-                double x2 = ball2.ObjectX;
-                double y2 = ball2.ObjectY;
+                double x2 = await ball2.GetXAsync();
+                double y2 = await ball2.GetYAsync();
 
                 return Math.Abs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) <= (r1 + r2) * (r1 + r2);
             }
@@ -156,7 +156,7 @@ namespace LogicLayer
                 {
                     if (ball.ObjectID != target.ObjectID)
                     {
-                        if(DoCirclesOverlap(ball,target))
+                        if(await DoCirclesOverlapAsync(ball,target))
                         {
                             //ball.ObjectBrush = Brushes.Blue;
                             StaticColision(ball, target);
@@ -167,12 +167,12 @@ namespace LogicLayer
             }
         }
 
-        public void BorderColision(IBall ball)
+        public async void BorderColision(IBall ball)
         {
-            double newcordX = ball.ObjectX;
-            double newcordY = ball.ObjectY;
-            double newvelX = ball.ObjectVelocityX;
-            double newvelY = ball.ObjectVelocityY;
+            double newcordX = await ball.GetXAsync();
+            double newcordY = await ball.GetYAsync();
+            double newvelX = await ball.GetVolXAsync();
+            double newvelY = await ball.GetVolYAsync();
 
             if (newcordX > limitX - ball.ObjectSize)
             {
@@ -195,25 +195,9 @@ namespace LogicLayer
                 newvelY = -newvelY;
             }
 
-            if (ball.ObjectVelocityX != newvelX)
-            {
-                ball.ObjectVelocityX = newvelX;
-            }
 
-            if (ball.ObjectVelocityY != newvelY)
-            {
-                ball.ObjectVelocityY = newvelY;
-            }
-
-            if (ball.ObjectX != newcordX)
-            {
-                ball.ObjectX = newcordX;
-            }
-
-            if (ball.ObjectY != newcordY)
-            {
-                ball.ObjectY = newcordY;
-            }
+            await ball.SetVelAsync(newvelX, newvelY);
+            await ball.SetCordsAsync(newcordX, newcordY);
         }
 
         public void StaticColision(IBall ball1, IBall ball2)
