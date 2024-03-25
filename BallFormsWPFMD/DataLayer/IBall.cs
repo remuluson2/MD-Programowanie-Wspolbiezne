@@ -17,8 +17,8 @@ namespace DataLayer
         public abstract Brush ObjectBrush { get; set; }
 
         public abstract event PropertyChangedEventHandler? PropertyChanged;
-        public abstract Task Move();
-        public abstract Task SetCordsAsync(double newx, double newy);
+        public abstract void Move();
+        public abstract void SetCords(double newx, double newy);
         public abstract Task SetVelAsync(double newx, double newy);
         public abstract Task<double> GetXAsync();
         public abstract Task<double> GetYAsync();

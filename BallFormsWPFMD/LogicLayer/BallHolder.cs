@@ -124,7 +124,7 @@ namespace LogicLayer
                 ballTasks.Clear();
                 foreach (var ball in Balls)
                 {
-                    ballTasks.Add(ball.Move());
+                    ballTasks.Add(Task.Run(() => ball.Move()));
                 }
                 moveBallsTask = Task.WhenAll(ballTasks.ToArray());
                 await moveBallsTask;
@@ -200,7 +200,7 @@ namespace LogicLayer
 
 
             await ball.SetVelAsync(newvelX, newvelY);
-            await ball.SetCordsAsync(newcordX, newcordY);
+            ball.SetCords(newcordX, newcordY);
         }
 
         public void StaticColision(IBall ball1, IBall ball2)

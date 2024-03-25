@@ -14,6 +14,7 @@ namespace DataLayer
     public class Ball : IBall
     {
         private readonly SemaphoreSlim _lock;
+        private object _locker = new object();
         private readonly int _ID = 0;
         private double _x;
         private double _y;
@@ -27,7 +28,7 @@ namespace DataLayer
 
         public Ball(int ID, int X = 0, int Y = 0, double Mass = 0.0, double velocityX = 0.0, double velocityY = 0.0, double size = 50.0)
         {
-            _lock = new SemaphoreSlim(1);
+            _lock = new SemaphoreSlim(1,1);
             this._ID = ID;
             this._x = X;
             this._y = Y;
@@ -106,27 +107,29 @@ namespace DataLayer
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public async override Task Move()
+        public override void Move()
         {
             double newcordX = ObjectX + ObjectVelocityX;
             double newcordY = ObjectY + ObjectVelocityY;
 
-            await SetCordsAsync(newcordX, newcordY);
+            SetCords(newcordX, newcordY);
             return;
         }
 
-        public async override Task SetCordsAsync(double newx, double newy)
+        public override void SetCords(double newx, double newy)
         {
-            await _lock.WaitAsync();
-            if (newx != ObjectX)
+            lock(_locker)
             {
-                ObjectX = newx;
+                if (newx != ObjectX)
+                {
+                    ObjectX = newx;
+                }
+                if (newy != ObjectY)
+                {
+                    ObjectY = newy;
+                }
             }
-            if (newy != ObjectY)
-            {
-                ObjectY = newy;
-            }
-            _lock.Release();
+            return;
         }
 
         public override async Task SetVelAsync(double newx, double newy)
@@ -145,29 +148,25 @@ namespace DataLayer
 
         public override async Task<double> GetXAsync()
         {
-            await _lock.WaitAsync();
-            _lock.Release();
+            lock (_locker);
             return ObjectX;
         }
 
         public override async Task<double> GetYAsync()
         {
-            await _lock.WaitAsync();
-            _lock.Release();
+            lock (_locker) ;
             return ObjectY;
         }
 
         public override async Task<double> GetVolXAsync()
         {
-            await _lock.WaitAsync();
-            _lock.Release();
+            lock (_locker) ;
             return ObjectVelocityX;
         }
 
         public override async Task<double> GetVolYAsync()
         {
-            await _lock.WaitAsync();
-            _lock.Release();
+            lock (_locker) ;
             return ObjectVelocityY;
         }
 
