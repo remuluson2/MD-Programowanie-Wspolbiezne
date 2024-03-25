@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Media;
@@ -14,7 +13,8 @@ namespace LogicLayer
     public class BallHolder : IBallHolder
     {
         public ObservableCollection<IBall> Balls {  get; private set; }
-        readonly Timer cycleTimer;
+        private readonly Timer _loggerTimer;
+        readonly Timer _cycleTimer;
         double limitX = 0;
         double limitY = 0;
         int defaultRadius = 100;
@@ -40,9 +40,12 @@ namespace LogicLayer
             this.limitX = limitX;
             this.limitY = limitY;
 
-            cycleTimer = new Timer(10);
-            cycleTimer.Elapsed += OnTimerElapsed;
-            cycleTimer.AutoReset = true;
+            _cycleTimer = new Timer(10);
+            _cycleTimer.Elapsed += OnTimerElapsed;
+            _cycleTimer.AutoReset = true;
+
+            _loggerTimer = new Timer(5000);
+            _loggerTimer.Elapsed += OnLogTimerElapsed;
         }
 
         public override void InitBalls(int ballsNumber)
@@ -242,8 +245,8 @@ namespace LogicLayer
         public override void Dispose()
         {
             Balls.Clear();
-            cycleTimer.Stop();
-            cycleTimer.Dispose();
+            _cycleTimer.Dispose();
+            _loggerTimer.Dispose();
         }
 
         public override void SetNewArea(double width, double height)
@@ -259,17 +262,36 @@ namespace LogicLayer
 
         public override void StartTimer()
         {
-            cycleTimer.Start();
+            _cycleTimer.Start();
+            _loggerTimer.Start();
+            _ = Logger.GetInstance().Result.LogMessage("Simulation Started");
         }
 
         public override void StopTimer()
         {
-            cycleTimer.Stop();
+            _cycleTimer.Stop();
+            _loggerTimer.Stop();
+            _ = Logger.GetInstance().Result.LogMessage("Simulation Stopped");
         }
 
         private void OnTimerElapsed(Object? source, ElapsedEventArgs e)
         {
             MoveBalls();
+        }
+
+
+        public void OnLogTimerElapsed(Object? source, ElapsedEventArgs e)
+        {
+            _ = LogStatus();
+        }
+
+        private async Task LogStatus()
+        {
+            await Logger.GetInstance().Result.LogMessage($"Logging Status of Balls");
+            foreach (var ball in Balls)
+            {
+                ball.LogStatus();
+            }
         }
     }
 }

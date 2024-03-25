@@ -24,5 +24,6 @@ namespace DataLayer
         public abstract Task<double> GetYAsync();
         public abstract Task<double> GetVolXAsync();
         public abstract Task<double> GetVolYAsync();
+        public abstract void LogStatus();
     }
 }

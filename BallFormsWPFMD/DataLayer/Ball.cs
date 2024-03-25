@@ -170,5 +170,10 @@ namespace DataLayer
             _lock.Release();
             return ObjectVelocityY;
         }
+
+        public override void LogStatus()
+        {
+            _ = Logger.GetInstance().Result.LogMessage($"Ball {ObjectID} - X: {ObjectX} Y: {ObjectY}");
+        }
     }
 }
